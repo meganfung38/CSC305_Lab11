@@ -10,28 +10,32 @@ import java.awt.event.ActionListener;
 public class ControlPanel extends JPanel implements ActionListener {
 
     // components
-    private JButton explanation, lexicon, start, next, clear;
-    private GridPanel gridPanel;
+    private final JButton explanation, lexicon, start, next, clear;
+    private final GridPanel gridPanel;
+    private final GameLogic gameLogic;
 
     /**
      * constructor
      * @param gridPanel reference to gridPanel for button controls
+     * @param gameLogic reference to gameLogic to update grid game
      */
-    public ControlPanel(GridPanel gridPanel) {
+    public ControlPanel(GridPanel gridPanel, GameLogic gameLogic) {
 
         // config
         setLayout(new FlowLayout(FlowLayout.CENTER, 15, 10));
 
         // initialize components
         this.gridPanel = gridPanel;
+        this.gameLogic = gameLogic;
         explanation = new JButton("Explanation");
         lexicon = new JButton("Lexicon");
         start = new JButton("Start");
         next = new JButton("Next");
         clear = new JButton("Clear");
 
-        // clear button config
+        // button config
         clear.addActionListener(this);
+        next.addActionListener(this);
 
         // add to panel
         add(explanation);
@@ -48,9 +52,13 @@ public class ControlPanel extends JPanel implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
 
-        // clear button
-        if (e.getSource() == clear) {
+        Object buttonPressed = e.getSource();
+
+        // configure button events
+        if (buttonPressed == clear) {
             gridPanel.clearGrid();
+        } else if (buttonPressed == next) {
+            gameLogic.updateGrid();
         }
 
     }

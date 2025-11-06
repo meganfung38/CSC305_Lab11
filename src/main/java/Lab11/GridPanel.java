@@ -80,14 +80,24 @@ public class GridPanel extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * trigger property change (TODO)
+     * trigger property change (updating grid game by applying game logic)
      * @param evt A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
+        // get updated grid game
+        Cell[][] updatedCells = (Cell[][]) evt.getNewValue();
+
+        // update grid game visually
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                cells[row][col].setAlive(updatedCells[row][col].isAlive());
+            }
+        }
         repaint();
+
     }
 
     /**
@@ -107,6 +117,14 @@ public class GridPanel extends JPanel implements PropertyChangeListener {
             }
         }
 
+    }
+
+    /**
+     * get method for current grid cells
+     * @return current grid cells
+     */
+    public Cell[][] getCells() {
+        return cells;
     }
 
 }

@@ -4,25 +4,22 @@ import java.awt.*;
 
 /**
  * main frame unifying all components
- * TODO implement game logic
  */
 public class GameOfLifeFrame extends JFrame {
 
     // declare components
-    private GridPanel gridPanel;
-    private ControlPanel controlPanel;
-    private InfoPanel infoPanel;
-    // private GameLogic gameLogic;
+    private final GridPanel gridPanel;
+    private final GameLogic gameLogic;
+    private final ControlPanel controlPanel;
+    private final InfoPanel infoPanel;
 
     /**
      * constructor
      */
     public GameOfLifeFrame() {
 
-        // title
-        super("Game of Life By Megan Fung");
-
         // config
+        super("Game of Life By Megan Fung");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
@@ -31,12 +28,12 @@ public class GameOfLifeFrame extends JFrame {
 
         // initialize components
         gridPanel = new GridPanel(34, 40);
-        controlPanel = new ControlPanel(gridPanel);
+        gameLogic = new GameLogic(gridPanel.getCells());
+        controlPanel = new ControlPanel(gridPanel, gameLogic);
         infoPanel = new InfoPanel();
-        // gameLogic = new GameLogic();
 
         // add property change listener
-        // gameLogic.addPropertyChangeListener(gridPanel);
+        gameLogic.addPropertyChangeListener(gridPanel);
 
         // add components to frame
         add(infoPanel, BorderLayout.NORTH);
